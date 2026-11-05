@@ -27,6 +27,9 @@ class Settings:
     db_url: str
     llm_model: str = "claude-opus-5-5"
     llm_use_fallbacks: bool = True
+    # The buyer-facing assistant (analyst) runs on a cheaper model; extraction and drafting keep llm_model.
+    # Its numbers are computed by tools and checked by grounding, so the model only plans and writes.
+    analyst_model: str = "claude-haiku-5-5"
 
     @property
     def db_path(self) -> Path:
@@ -44,6 +47,7 @@ def load_settings(env: dict[str, str] | None = None) -> Settings:
         db_url=db_url,
         llm_model=env.get("APP_LLM_MODEL", "claude-opus-5-5"),
         llm_use_fallbacks=env.get("APP_LLM_FALLBACKS", "1") != "0",
+        analyst_model=env.get("APP_ANALYST_MODEL", "claude-haiku-5-5"),
     )
 
 

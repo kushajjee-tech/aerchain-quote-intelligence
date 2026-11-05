@@ -22,7 +22,11 @@ def ask(body: AskBody, request: Request):
     st = request.app.state
     session_id = body.session_id or f"analyst-{uuid.uuid4().hex[:12]}"
     from app.process.run import awarded_baseline_rows
-    analyst = Analyst(st.gateway_factory(), st.session_factory, str(st.settings.db_path), body.rfx_id,
+    gw = st.gateway_factory()
+    gw.model = st.settings.analyst_model          # cheaper model for the assistant (APP_ANALYST_MODEL)
+    if "haiku" in gw.model:
+        gw.use_fallbacks = False                  # Haiku has no server-side refusal fallback
+    analyst = Analyst(gw, st.session_factory, str(st.settings.db_path), body.rfx_id,
                       awarded_baseline_rows(st.session_factory, st.storage, body.rfx_id))
     out = to_dict(analyst.ask(session_id, body.question))
     from app.db.models import AnalystAnswerRecord

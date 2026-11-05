@@ -198,9 +198,10 @@ def list_rfx(request: Request):
     from sqlalchemy import select
     from app.db.models import Rfx
     sf, _ = _deps(request)
+    from app.api.overview import rfx_context
+    _, st = _deps(request)
     with sf() as s:
-        return [{"rfx_id": r.id, "title": r.title, "kind": r.kind, "origin": r.origin, "status": r.status}
-                for r in s.scalars(select(Rfx).order_by(Rfx.id))]
+        return [rfx_context(r, st) for r in s.scalars(select(Rfx).order_by(Rfx.id))]
 
 
 class UploadBody(BaseModel):

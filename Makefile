@@ -26,6 +26,7 @@ dev:
 
 test:
 	cd backend && $(PY) -m pytest -q
+	npm --prefix frontend test
 
 doctor:
 	$(PY) backend/scripts/doctor.py

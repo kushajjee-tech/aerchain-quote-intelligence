@@ -1,89 +1,116 @@
-import { useEffect, useState } from "react";
+// Vendors & Inbox: searchable, filterable supplier list (from the overview) and the upload affordance.
+import { useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Inbox, Upload, Users } from "lucide-react";
 import { api } from "../api";
-import { Chip } from "../components/StatusBadge";
-import { useRfx } from "../rfx";
+import { useRfx, VendorRow } from "../rfx";
+import { Badge, Button, Card, DataTable, EmptyState, Notice, PageHeader, SearchInput, Select, StatusBadge, useEscape } from "../ui";
+import { fmtTime } from "./Home";
 
-const LABEL_STYLE: Record<string, string> = { Passed: "#166534", Failed: "#991b1b", Unverified: "#9a3412", "Not applicable": "#6b7280" };
+const ACCEPT = [".eml", ".pdf", ".xlsx", ".docx", ".jpg", ".jpeg", ".png"];
+const MAX_MB = 15;
 
-function Eligibility({ rfxId, vendorId }: { rfxId: number; vendorId: number }) {
-  const [e, setE] = useState<any>(null);
-  useEffect(() => { api(`/rfx/${rfxId}/vendors/${vendorId}/eligibility`).then(setE).catch(() => setE(null)); }, [rfxId, vendorId]);
-  if (!e) return null;
-  if (!e.configured) return <p><i>{e.note}</i></p>;
-  return (
-    <div style={{ display: "flex", gap: 24 }}>
-      {(["quality", "commercial"] as const).map((sec) => (
-        <div key={sec}>
-          <b>{sec === "quality" ? "Quality" : "Commercial"}: <span style={{ color: LABEL_STYLE[e[sec].label] }}>{e[sec].label}</span></b>
-          <ul style={{ margin: 4 }}>{e[sec].questions.map((q: any) => (
-            <li key={q.key}>{q.no} {q.key}: <span style={{ color: LABEL_STYLE[q.label] }}>{q.label}</span> — {q.reason}
-              {q.provenance?.documents?.[0]?.expiry && <small> (valid to {q.provenance.documents[0].expiry})</small>}</li>))}</ul>
-        </div>))}
-      <div>
-        <b>Line-level</b>
-        <ul style={{ margin: 4 }}>{e.line_level.map((q: any) => (
-          <li key={q.key}>{q.key} on {q.flag.replace("_", "-")} lines {q.lines.join(", ")}: <span style={{ color: LABEL_STYLE[q.label] }}>{q.label}</span></li>))}</ul>
-      </div>
-    </div>
-  );
-}
-
-function Documents({ rfxId, vendorId }: { rfxId: number; vendorId: number }) {
-  const [docs, setDocs] = useState<any[]>([]);
-  useEffect(() => { api(`/rfx/${rfxId}/vendors/${vendorId}/documents`).then(setDocs).catch(() => setDocs([])); }, [rfxId, vendorId]);
-  if (!docs.length) return null;
-  return (
-    <div style={{ fontSize: 12, margin: "6px 0" }}><b>Documents received</b>
-      <ul style={{ margin: 2 }}>{docs.map((d, i) => (
-        <li key={i}><a href={d.url} target="_blank">{d.filename}</a> <Chip text={d.kind} />{" "}
-          {d.parse_status !== "parsed" && <Chip text={`${d.parse_status}: ${d.failure_reason}`} />}
-          {d.ocr && <Chip text={`OCR read · ${d.ocr.ocr_lines} lines · mean confidence ${d.ocr.mean_conf}% · single read → values need confirmation`} />}
-          {d.filename.includes("AI-generated") && <Chip text="AI-generated image (synthetic fixture, not a camera photo)" />}
-          <small style={{ color: "#6b7280" }}> · {d.message}</small></li>))}</ul></div>
-  );
-}
-
-function Pack({ rfxId, vendorId }: { rfxId: number; vendorId: number }) {
-  const [pack, setPack] = useState<any>(null);
-  const [body, setBody] = useState("");
-  const [msg, setMsg] = useState<string | null>(null);
-  const gen = async () => { const p = await api(`/rfx/${rfxId}/vendors/${vendorId}/clarification-pack`, { body: {} }); setPack(p); setBody(p.body); setMsg(null); };
-  const approve = async () => {
+export function UploadDialog({ onClose, vendor }: { onClose: () => void; vendor?: VendorRow }) {
+  const { rfxId, refresh } = useRfx();
+  const [file, setFile] = useState<File | null>(null);
+  const [name, setName] = useState(vendor?.name ?? "");
+  const [email, setEmail] = useState(vendor?.email ?? "");
+  const [state, setState] = useState<"idle" | "uploading" | "done">("idle");
+  const [err, setErr] = useState<string | null>(null);
+  const input = useRef<HTMLInputElement>(null);
+  useEscape(onClose);
+  const pick = (f: File | undefined) => {
+    setErr(null);
+    if (!f) return;
+    const ext = "." + (f.name.split(".").pop() ?? "").toLowerCase();
+    if (!ACCEPT.includes(ext)) return setErr(`${f.name}: file type ${ext} is not accepted. Accepted: ${ACCEPT.join(", ")}.`);
+    if (f.size > MAX_MB * 1024 * 1024) return setErr(`${f.name} is ${(f.size / 1048576).toFixed(1)} MB; the limit is ${MAX_MB} MB.`);
+    setFile(f);
+  };
+  const submit = async () => {
+    if (!file) return;
+    setState("uploading"); setErr(null);
     try {
-      if (body !== pack.body) await api(`/clarification-packs/${pack.pack_id}`, { method: "PUT", body: { body } });
-      const r = await api(`/clarification-packs/${pack.pack_id}/approve`, { body: { actor: "buyer" } });
-      setMsg(`Approved — placed in the outbox (message #${r.outbox_message_id}). Record the vendor's answers as resolutions.`);
-      setPack({ ...pack, status: r.status });
-    } catch (e) { setMsg(String(e)); }
+      const buf = new Uint8Array(await file.arrayBuffer());
+      let bin = ""; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode(...buf.subarray(i, i + 0x8000));
+      await api(`/rfx/${rfxId}/upload`, { body: { vendor_name: name, vendor_email: email, filename: file.name, content_b64: btoa(bin) } });
+      setState("done"); await refresh();
+    } catch (e) { setErr(String(e).replace(/^Error: /, "")); setState("idle"); }
   };
   return (
-    <div style={{ marginTop: 8 }}>
-      <button onClick={gen}>Generate clarification pack</button>
-      {pack && (<div>
-        <p>{pack.items.length} items, ordered by decision sensitivity:{" "}
-          {pack.items.map((i: any) => <Chip key={i.sensitivity_rank} text={`${i.sensitivity_rank}. ${i.kind}${i.line_no ? " L" + i.line_no : ""}`} />)}</p>
-        <textarea value={body} onChange={(e) => setBody(e.target.value)} disabled={pack.status !== "draft"}
-                  style={{ width: "100%", height: 260, fontFamily: "ui-monospace, monospace", fontSize: 12 }} />
-        <button onClick={approve} disabled={pack.status !== "draft"}>Approve → outbox</button>
-        <small style={{ marginLeft: 8, color: "#6b7280" }}>Template-generated, no AI. Nothing is sent without approval.</small>
-      </div>)}
-      {msg && <p>{msg}</p>}
-    </div>
+    <>
+      <div className="scrim" onClick={onClose} />
+      <div className="dialog" role="dialog" aria-modal="true" style={{ width: 520 }}>
+        <h3 style={{ fontSize: 16, marginBottom: 4 }}>Upload a supplier response</h3>
+        <div className="subtle" style={{ marginBottom: 14 }}>The original file is stored unchanged. Accepted: {ACCEPT.join(", ")} · up to {MAX_MB} MB.</div>
+        {state === "done" ? (<>
+          <Notice tone="success">Uploaded: <b>{file?.name}</b>. Status: <b>Uploaded</b>. It is read when you run <b>Read responses</b> in the Co-pilot’s RFx workflow
+            (uses the AI extraction service, which needs the API key).</Notice>
+          <div className="row" style={{ justifyContent: "flex-end", marginTop: 16 }}><Button variant="primary" onClick={onClose}>Done</Button></div>
+        </>) : (<div className="stack">
+          <label className="field">Supplier name<input className="input" value={name} onChange={(e) => setName(e.target.value)} /></label>
+          <label className="field">Supplier email<input className="input" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="sales@vendor.example" /></label>
+          <div className="empty" style={{ border: "1px dashed var(--border-strong)", borderRadius: 8, cursor: "pointer", padding: 20 }}
+            onClick={() => input.current?.click()} onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); pick(e.dataTransfer.files[0]); }}>
+            <Upload size={20} /><h4>{file ? file.name : "Drop a file here or click to choose"}</h4>
+            {file && <div className="subtle">{(file.size / 1024).toFixed(0)} KB</div>}
+            <input ref={input} type="file" accept={ACCEPT.join(",")} hidden onChange={(e) => pick(e.target.files?.[0])} />
+          </div>
+          {err && <Notice tone="critical">{err}</Notice>}
+          <div className="row" style={{ justifyContent: "flex-end" }}>
+            <Button variant="ghost" onClick={onClose}>Cancel</Button>
+            <Button variant="primary" disabled={!file || !name.trim() || !email.includes("@")} loading={state === "uploading"} onClick={submit} icon={<Upload size={14} />}>Upload</Button>
+          </div>
+        </div>)}
+      </div>
+    </>
   );
 }
 
 export default function Vendors() {
-  const { rfxId } = useRfx();
-  const [vendors, setVendors] = useState<any[]>([]);
-  useEffect(() => { api(`/rfx/${rfxId}/comparison`).then((d) => setVendors(d.vendors)).catch(() => setVendors([])); }, [rfxId]);
+  const { overview } = useRfx();
+  const nav = useNavigate();
+  const [q, setQ] = useState("");
+  const [resp, setResp] = useState("all");
+  const [qual, setQual] = useState("all");
+  const [com, setCom] = useState("all");
+  const [upload, setUpload] = useState(false);
+  const vendors = overview?.vendors ?? [];
+  const opts = (k: "state" | "quality" | "commercial") => [{ value: "all", label: "All" },
+    ...[...new Set(vendors.map((v) => v[k] ?? "Not evaluated"))].map((s) => ({ value: s, label: s }))];
+  const rows = useMemo(() => vendors.filter((v) =>
+    `${v.name} ${v.key} ${v.email ?? ""}`.toLowerCase().includes(q.toLowerCase()) &&
+    (resp === "all" || v.state === resp) && (qual === "all" || (v.quality ?? "Not evaluated") === qual) &&
+    (com === "all" || (v.commercial ?? "Not evaluated") === com)), [vendors, q, resp, qual, com]);
   return (
-    <section>
-      <h2>Vendors</h2>
-      {vendors.map((v) => (
-        <div key={v.vendor_id} style={{ border: "1px solid #e5e7eb", borderRadius: 6, padding: 10, marginBottom: 10 }}>
-          <h3 style={{ margin: 0 }}>{v.name} <Chip text={v.state === "RESPONDED" ? "Responded" : "Awaiting response"} /></h3>
-          {v.state === "RESPONDED" && <><Documents rfxId={rfxId} vendorId={v.vendor_id} /><Eligibility rfxId={rfxId} vendorId={v.vendor_id} /><Pack rfxId={rfxId} vendorId={v.vendor_id} /></>}
-        </div>))}
-    </section>
+    <div className="stack" style={{ gap: 20 }}>
+      <PageHeader title="Vendors & Inbox" sub={`${overview?.metrics.vendors_responded ?? 0} of ${overview?.metrics.vendors_invited ?? 0} invited suppliers have responded`}
+        actions={<Button variant="primary" icon={<Upload size={15} />} onClick={() => setUpload(true)}>Upload response</Button>} />
+      <Card pad={false} title={<span className="row" style={{ gap: 8 }}><Users size={16} />Suppliers <Badge tone="neutral">{rows.length}</Badge></span>}
+        actions={<>
+          <SearchInput value={q} onChange={setQ} placeholder="Search name, ID or email" width={240} />
+          <Select label="" value={resp} onChange={setResp} options={opts("state").map((o) => ({ ...o, label: o.value === "all" ? "Response: all" : o.label }))} />
+          <Select value={qual} onChange={setQual} options={opts("quality").map((o) => ({ ...o, label: o.value === "all" ? "Quality: all" : o.label }))} />
+          <Select value={com} onChange={setCom} options={opts("commercial").map((o) => ({ ...o, label: o.value === "all" ? "Commercial: all" : o.label }))} />
+        </>}>
+        <DataTable rows={rows} rowKey={(v) => v.vendor_id} onRowClick={(v) => nav(`/vendors/${v.vendor_id}`)}
+          empty={<EmptyState icon={<Inbox size={22} />} title="No suppliers match these filters" />}
+          columns={[
+            { key: "n", label: "Supplier", sort: (v) => v.name, render: (v) => <div><div style={{ fontWeight: 600 }}>{v.name}</div><div className="subtle" style={{ maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={v.email ?? ""}><span className="mono">{v.key}</span> · {v.email}</div></div> },
+            { key: "r", label: "Response", sort: (v) => v.state, render: (v) => <StatusBadge status={v.state} /> },
+            { key: "c", label: "Quote coverage", sort: (v) => v.coverage_pct, render: (v) => (
+              <div style={{ minWidth: 118 }}><div className="row nowrap" style={{ fontSize: 12 }}><span className="num">{v.quoted_lines} of {v.lines} SKUs</span><span className="ml-auto subtle num">{v.coverage_pct}%</span></div>
+                <div className="bar-track"><div className="bar-fill" style={{ width: `${v.coverage_pct}%` }} /></div></div>) },
+            { key: "q", label: "Quality docs", sort: (v) => v.quality ?? "", render: (v) => v.quality ? <StatusBadge status={v.quality} /> : <span className="subtle">Not evaluated</span> },
+            { key: "m", label: "Commercial", sort: (v) => v.commercial ?? "", render: (v) => v.commercial ? <StatusBadge status={v.commercial} /> : <span className="subtle">Not evaluated</span> },
+            { key: "b", label: "Open findings", sort: (v) => v.blockers * 100 + v.exceptions, render: (v) => <span className="row nowrap" style={{ gap: 6 }}>
+              {v.blockers > 0 ? <Badge tone="critical">{v.blockers} blocker{v.blockers > 1 ? "s" : ""}</Badge> : <span className="subtle">No blockers</span>}
+              <span className="subtle">{v.exceptions} total</span></span> },
+            { key: "l", label: "Last response", sort: (v) => v.last_activity ?? "", render: (v) => <span className="subtle" style={{ display: "inline-block", maxWidth: 70 }}>{fmtTime(v.last_activity)}</span> },
+            { key: "a", label: "", render: (v) => <Button size="sm" className="nowrap" onClick={(e) => { e.stopPropagation(); nav(`/vendors/${v.vendor_id}`); }}>Open supplier</Button> },
+          ]} />
+      </Card>
+      {upload && <UploadDialog onClose={() => setUpload(false)} />}
+    </div>
   );
 }

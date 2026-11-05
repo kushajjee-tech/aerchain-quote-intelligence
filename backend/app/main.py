@@ -13,6 +13,7 @@ from app.api.scenarios import router as scenario_router
 from app.api.settings import router as settings_router
 from app.api.exports import router as exports_router
 from app.api.documents import router as documents_router
+from app.api.overview import router as overview_router
 from app.config import Settings, load_settings, startup_check
 from app.db.session import init_db, make_engine, make_session_factory
 from app.storage import Storage
@@ -48,6 +49,7 @@ def create_app(settings: Settings | None = None, env: dict[str, str] | None = No
     app.include_router(settings_router)
     app.include_router(exports_router)
     app.include_router(documents_router)
+    app.include_router(overview_router)
 
     def gateway_factory():  # lazy: the app starts without an API key; model routes need one
         from app.llm.gateway import LLMGateway

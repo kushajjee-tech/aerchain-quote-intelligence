@@ -1,7 +1,7 @@
 // Renders a bound chart exactly as served: every bar/point is a row of the tool result (SC-09).
 // No values are computed here beyond scaling to pixels.
 const OK = ["VERIFIED", "EXTRACTED", "ASSUMED"];
-const PALETTE = ["#2563eb", "#d97706", "#059669", "#7c3aed", "#dc2626"];
+const PALETTE = ["#3157c8", "#9a5b00", "#1f7a4d", "#5b3fa8", "#b42318"];
 
 export default function Chart({ c }: { c: any }) {
   const W = 640, H = 260, L = 56, B = 40, T = 24;

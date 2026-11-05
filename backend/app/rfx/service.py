@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 
-from app.db.models import (AuditEvent, Document, InboxMessage, Invitation, OutboxMessage, Response, Rfx, RfxLine, Vendor)
+from app.db.models import (AuditEvent, Document, InboxMessage, Invitation, OutboxMessage, Question, Response, Rfx, RfxLine, Vendor)
 from app.llm.gateway import LLMGateway
 from app.rfx.item_master import MappingProposal, import_rows, propose_mapping, read_item_master
 from app.storage import Storage
@@ -373,4 +373,8 @@ def header(sf, rfx_id: int) -> dict:
                 "label": {"COPILOT_LIVE": "Drafted live by the co-pilot", "SEEDED_FALLBACK": "Seeded fallback (canonical spec)",
                           "SANDBOX": "Sandbox — free-form drafting"}[rfx.origin],
                 "conformance": rfx.conformance, "terms": rfx.terms, "response_basis": rfx.response_basis,
-                "delivery_location": rfx.delivery_location, "patches": patches, "copilot_calls": calls}
+                "delivery_location": rfx.delivery_location, "patches": patches, "copilot_calls": calls,
+                "questions": [{"no": q.no, "section": q.section, "key": q.requirement_key, "applicability": q.applicability,
+                               "text": q.text, "mandatory": q.mandatory, "pass_rule": q.pass_rule,
+                               "evidence_required": q.evidence_required, "evidence_doc_type": q.evidence_doc_type}
+                              for q in s.scalars(select(Question).where(Question.rfx_id == rfx_id).order_by(Question.id))]}

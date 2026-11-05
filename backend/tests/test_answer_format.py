@@ -39,3 +39,10 @@ def test_blob_answer_is_regenerated_and_table_choice_returned(tmp_path):
     assert "Format:" in model.requests[2]["messages"][-1]["content"]   # format feedback appended, not a new prompt
     assert "Answer format (strict" in model.requests[0]["system"][0]["text"] if isinstance(model.requests[0]["system"], list) \
         else "Answer format (strict" in model.requests[0]["system"]
+
+
+def test_assistant_runs_on_the_configured_cheaper_model(tmp_path):
+    c, rid, model = analyst_client(tmp_path, [tool("run_scenario", SCEN), text(GOOD)])
+    c.post("/analyst/ask", json={"rfx_id": rid, "question": "What if we split it, cheapest per line?"})
+    assert {r["model"] for r in model.requests} == {"claude-haiku-5-5"}
+    assert all("fallbacks" not in r for r in model.requests)        # no server-side fallback on Haiku

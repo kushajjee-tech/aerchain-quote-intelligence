@@ -112,7 +112,7 @@ describe("assistant on every screen", () => {
     const q = JSON.parse(ask.body!).question as string;
     expect(q).toMatch(/^What is missing or unresolved for Alpha Kraft\?/);
     expect(q).toContain("supplier V1 Alpha Kraft");
-    expect(screen.getByRole("button", { name: "Open line 2" })).toBeTruthy();       // answer links back into the app
+    expect(screen.getByRole("button", { name: /Line 2/ })).toBeTruthy();       // answer links back into the app
   });
   it("is not duplicated on the Co-pilot page, which shows the same thread full-size", async () => {
     at("/copilot");

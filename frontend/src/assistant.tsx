@@ -136,7 +136,7 @@ export function ChatThread({ compact }: { compact?: boolean }) {
               <div style={{ flex: 1, minWidth: 0 }}>
                 {!t.a && !t.err && <div className="row muted"><span className="spin" style={{ display: "inline-flex" }}><RotateCcw size={14} /></span> Working — querying the data and checking every number…</div>}
                 {t.err && <ErrorState error={/unavailable|503|API key|credential/i.test(t.err) ? `The AI service is unavailable (${t.err}). Start the app with your API key using make start. Every other screen works without it.` : t.err} onRetry={() => retry(i)} />}
-                {t.a && (t.a.narrative || t.a.tables?.length ? <Answer a={t.a} compact={compact} /> : <EmptyState title="No result">The question did not match data in this RFx. Try naming a supplier, SKU or line.</EmptyState>)}
+                {t.a && (t.a.narrative || t.a.tables?.length ? <Answer a={t.a} compact={compact} onAsk={send} /> : <EmptyState title="No result">The question did not match data in this RFx. Try naming a supplier, SKU or line.</EmptyState>)}
               </div></div>
           </div>))}
         <div ref={end} />

@@ -53,3 +53,18 @@ def open_file(rfx_id: int, vendor_id: int, name: str, request: Request):
                 return Response(d.data, media_type=d.mime or "application/octet-stream",
                                 headers={"Content-Disposition": f'inline; filename="{quote(d.filename)}"'})
     raise HTTPException(404, "no such document for this vendor")
+
+
+@router.get("/{rfx_id}/vendors/{vendor_id}/messages")
+def list_messages(rfx_id: int, vendor_id: int, request: Request):
+    """Correspondence as received: sender, subject, date, body text and attachments (originals preserved)."""
+    out = []
+    for sub, msg, docs in _submissions(request, rfx_id, vendor_id):
+        out.append({"file": sub["path"].split("/")[-1], "kind": sub.get("kind"), "from": msg.from_addr, "subject": msg.subject,
+                    "date": msg.date, "body": "\n".join(u.text for u in msg.body.units),
+                    "attachments": [{"filename": d.filename, "kind": d.kind, "mime": d.mime, "parse_status": d.parse_status,
+                                     "failure_reason": d.failure_reason, "size": len(d.data or b""),
+                                     "ocr": {k: d.meta[k] for k in ("mean_conf", "ocr_lines") if k in d.meta} or None,
+                                     "url": f"/api/rfx/{rfx_id}/vendors/{vendor_id}/file?name={quote(d.filename)}"}
+                                    for d in docs[1:]]})
+    return out

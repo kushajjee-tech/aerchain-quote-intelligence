@@ -45,6 +45,7 @@ class Rfx(_Id, Base):
     conformance: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     copilot_conversation_id: Mapped[str | None] = mapped_column(String, nullable=True)
     terms: Mapped[list] = mapped_column(JSON, default=list)  # [{type, text, source}] cited to the policy (RFX-9)
+    meta: Mapped[dict] = mapped_column(JSON, default=dict)  # code, buyer organisation, category, plant, currency
 
 
 class RfxLine(_Id, Base):
@@ -416,6 +417,18 @@ class AnalystAnswerRecord(_Id, Base):
     question: Mapped[str] = mapped_column(Text)
     answer: Mapped[dict] = mapped_column(JSON)
     at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
+
+
+class FindingReview(_Id, Base):
+    """Latest human review state of a derived finding (history lives in the append-only audit log)."""
+    __tablename__ = "finding_review"
+    rfx_id: Mapped[int] = mapped_column(Integer)
+    finding_id: Mapped[str] = mapped_column(String)
+    state: Mapped[str] = mapped_column(String)  # open / confirmed / rejected / clarification_requested / not_applicable
+    comment: Mapped[str | None] = mapped_column(Text, nullable=True)
+    actor: Mapped[str] = mapped_column(String)
+    at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
+    __table_args__ = (UniqueConstraint("rfx_id", "finding_id"),)
 
 
 # --- Append-only logs ---------------------------------------------------------------------

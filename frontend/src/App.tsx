@@ -1,58 +1,46 @@
-import { useState } from "react";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Analyst from "./pages/Analyst";
 import Award from "./pages/Award";
 import Comparison from "./pages/Comparison";
 import Copilot from "./pages/Copilot";
-import Settings from "./pages/Settings";
+import Home from "./pages/Home";
 import Review from "./pages/Review";
+import Settings from "./pages/Settings";
+import VendorDetail from "./pages/VendorDetail";
 import Vendors from "./pages/Vendors";
-import { RfxContext } from "./rfx";
+import { RfxProvider, useRfx } from "./rfx";
+import Shell from "./Shell";
+import { AssistantProvider } from "./assistant";
+import { EmptyState, ErrorState, Skeleton } from "./ui";
+import { Link } from "react-router-dom";
 
-const BUILT: Record<string, JSX.Element> = { "/comparison": <Comparison />, "/review": <Review />, "/vendors": <Vendors />, "/award": <Award />, "/analyst": <Analyst />, "/copilot": <Copilot />, "/settings": <Settings /> };
-
-// M0 shell: one route per screen in architecture §4. Screens are filled in by later milestones.
-const SCREENS: { path: string; label: string; milestone: string }[] = [
-  { path: "/copilot", label: "Co-pilot", milestone: "M6" },
-  { path: "/vendors", label: "Vendors & Inbox", milestone: "M6" },
-  { path: "/review", label: "Review", milestone: "M5" },
-  { path: "/comparison", label: "Comparison", milestone: "M5" },
-  { path: "/analyst", label: "Analyst", milestone: "M8" },
-  { path: "/award", label: "Award", milestone: "M7/M9" },
-  { path: "/settings", label: "Settings", milestone: "M5" },
-];
-
-function Placeholder({ label, milestone }: { label: string; milestone: string }) {
-  return (
-    <section>
-      <h2>{label}</h2>
-      <p>Not built yet (planned in {milestone}).</p>
-    </section>
-  );
+function Gate({ children }: { children: JSX.Element }) {
+  const { rfxId, list, overview, error, refresh } = useRfx();
+  if (error && !overview) return <ErrorState error={`Could not load the RFx: ${error}. Is the backend running (make start)?`} onRetry={refresh} />;
+  if (!list.length || !rfxId) return list.length === 0 && !error ? <Skeleton rows={6} /> : <EmptyState title="No RFx yet">Create one in the Co-pilot.</EmptyState>;
+  if (!overview) return <Skeleton rows={8} />;
+  return children;
 }
 
 export default function App() {
-  const [rfxId, setRfxId] = useState(1);
   return (
-    <RfxContext.Provider value={{ rfxId, setRfxId }}>
-    <div style={{ fontFamily: "system-ui, sans-serif", display: "flex", gap: 24, padding: 16 }}>
-      <nav style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
-        <strong>Quote Intelligence</strong>
-        <label style={{ fontSize: 12 }}>RFx #<input type="number" value={rfxId} onChange={(e) => setRfxId(Number(e.target.value))} style={{ width: 50 }} /></label>
-        {SCREENS.map((s) => (
-          <NavLink key={s.path} to={s.path}>{s.label}</NavLink>
-        ))}
-      </nav>
-      <main style={{ flex: 1 }}>
+    <RfxProvider>
+      <AssistantProvider>
+      <Shell>
         <Routes>
-          <Route path="/" element={<Placeholder label="Home" milestone="M0" />} />
-          {Object.entries(BUILT).map(([path, el]) => <Route key={path} path={path} element={el} />)}
-          {SCREENS.filter((s) => !(s.path in BUILT)).map((s) => (
-            <Route key={s.path} path={s.path} element={<Placeholder label={s.label} milestone={s.milestone} />} />
-          ))}
+          <Route path="/" element={<Gate><Home /></Gate>} />
+          <Route path="/copilot" element={<Gate><Copilot /></Gate>} />
+          <Route path="/vendors" element={<Gate><Vendors /></Gate>} />
+          <Route path="/vendors/:vendorId" element={<Gate><VendorDetail /></Gate>} />
+          <Route path="/review" element={<Gate><Review /></Gate>} />
+          <Route path="/comparison" element={<Gate><Comparison /></Gate>} />
+          <Route path="/analyst" element={<Gate><Analyst /></Gate>} />
+          <Route path="/award" element={<Gate><Award /></Gate>} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="*" element={<EmptyState title="Page not found"><Link to="/">Go to Home</Link></EmptyState>} />
         </Routes>
-      </main>
-    </div>
-    </RfxContext.Provider>
+      </Shell>
+      </AssistantProvider>
+    </RfxProvider>
   );
 }

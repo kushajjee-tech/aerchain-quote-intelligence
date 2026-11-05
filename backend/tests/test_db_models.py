@@ -39,15 +39,19 @@ def test_audit_event_append_only(session_factory, stmt):
             s.execute(text(stmt))
 
 
-def test_stale_schema_refuses_to_start_with_clear_message(tmp_path):
+def test_older_database_is_migrated_additively(tmp_path):
     import pytest
     from sqlalchemy import text
     from app.db.session import SchemaOutOfDate, init_db, make_engine
     engine = make_engine(f"sqlite:///{tmp_path / 'old.db'}")
     with engine.begin() as c:  # a database created by an older build
         c.execute(text("CREATE TABLE rfx (id INTEGER PRIMARY KEY, title VARCHAR)"))
-    with pytest.raises(SchemaOutOfDate, match="make reset"):
-        init_db(engine)
+        c.execute(text("INSERT INTO rfx (id, title) VALUES (1, 'kept')"))
+    init_db(engine)  # additive drift: missing columns are added as nullable, existing rows are kept
+    with engine.begin() as c:
+        assert c.execute(text("SELECT title FROM rfx WHERE id = 1")).scalar() == "kept"
+        cols = {r[1] for r in c.execute(text("PRAGMA table_info(rfx)"))}
+    assert {"meta", "scope", "terms", "status"} <= cols
     fresh = make_engine(f"sqlite:///{tmp_path / 'new.db'}")
     init_db(fresh)
     init_db(fresh)  # idempotent on a current schema

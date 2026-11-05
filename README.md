@@ -52,3 +52,9 @@ refuses to start if it can see them.
   unresolved until confirmed (`docs/12_phone_photo_capture_kit.md` §8).
 - The dataset realism review was **AI-written and checked by the owner**, not an independent buyer
   (`docs/11_dataset_realism_review.md` §7).
+
+## Hosted demo (Render)
+`render.yaml` + `Dockerfile` build one container: the API under `/api` and the built React app
+(`backend/app/serve.py`). Each start copies `deploy/demo.db` (a snapshot of the prepared demo database) into place, so
+the public demo always starts from the same state. On Render: New → Blueprint → this repo → enter `ANTHROPIC_API_KEY`
+→ Apply. Refresh the snapshot with `sqlite3 app_data/app.db ".backup deploy/demo.db"`.

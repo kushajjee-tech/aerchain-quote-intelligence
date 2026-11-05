@@ -1,0 +1,13 @@
+.git
+.venv
+.env
+.env.*
+.claude
+**/node_modules
+**/__pycache__
+frontend/dist
+app_data/app.db
+app_data/storage
+app_data/uploads
+docs
+claude_context_prompt.md

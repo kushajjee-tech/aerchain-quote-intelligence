@@ -1,0 +1,27 @@
+[
+  {
+    "key": "V1",
+    "name": "Deccan Kraft & Board Pvt. Ltd.",
+    "email": "sales@deccankraft.example"
+  },
+  {
+    "key": "V2",
+    "name": "Konkan Fibre Packaging Pvt. Ltd.",
+    "email": "exports@konkanfibre.example"
+  },
+  {
+    "key": "V3",
+    "name": "Malwa Corrugators",
+    "email": "accounts@malwacorrugators.example"
+  },
+  {
+    "key": "V4",
+    "name": "Shivam Box Works",
+    "email": "shivamboxworks@mail.example"
+  },
+  {
+    "key": "V5",
+    "name": "Sahyadri Paper Mills",
+    "email": "rajesh.k@sahyadripaper.example"
+  }
+]

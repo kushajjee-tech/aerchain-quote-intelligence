@@ -1,0 +1,42 @@
+[
+  {
+    "vendor": "Sahyadri Paper Mills",
+    "term_type": "PAYMENT",
+    "value": "45",
+    "unit": "days",
+    "period": "FY2026",
+    "source": "FY2026 contract"
+  },
+  {
+    "vendor": "Sahyadri Paper Mills",
+    "term_type": "VALIDITY",
+    "value": "60",
+    "unit": "days",
+    "period": "FY2026",
+    "source": "FY2026 contract"
+  },
+  {
+    "vendor": "Sahyadri Paper Mills",
+    "term_type": "LEAD_TIME",
+    "value": "14",
+    "unit": "days",
+    "period": "FY2026",
+    "source": "FY2026 contract"
+  },
+  {
+    "vendor": "Sahyadri Paper Mills",
+    "term_type": "MOQ",
+    "value": "2000",
+    "unit": "pcs per SKU",
+    "period": "FY2026",
+    "source": "FY2026 contract"
+  },
+  {
+    "vendor": "Sahyadri Paper Mills",
+    "term_type": "FREIGHT",
+    "value": "Delivered Chakan",
+    "unit": null,
+    "period": "FY2026",
+    "source": "FY2026 contract"
+  }
+]

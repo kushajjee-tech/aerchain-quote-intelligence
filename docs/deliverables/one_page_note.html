@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kill the Quote Spreadsheet — Decisions and Exclusions</title>
+<style>
+  @page { size: A4; margin: 12mm 13mm 11mm 13mm; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 8.6pt; line-height: 1.32; color: #1a1a1a; margin: 0; }
+  h1 { font-size: 13.5pt; margin: 0 0 1mm 0; }
+  .sub { color: #555; font-size: 8.2pt; margin-bottom: 2.2mm; }
+  h2 { font-size: 9.6pt; margin: 2.4mm 0 1mm 0; padding-bottom: 0.6mm; border-bottom: 1px solid #c9c9c9; }
+  ol, ul { margin: 0; padding-left: 4.6mm; }
+  li { margin: 0 0 0.9mm 0; }
+  b { font-weight: 650; }
+  .why { color: #444; }
+  .cols { display: flex; gap: 6mm; }
+  .cols > div { flex: 1; }
+  .foot { margin-top: 2mm; color: #777; font-size: 7.2pt; border-top: 1px solid #e0e0e0; padding-top: 1mm; }
+</style>
+</head>
+<body>
+<h1>Kill the Quote Spreadsheet: what I decided, and what I left out</h1>
+<div class="sub">Category: corrugated packaging · 5 vendors · 30 line items · ₹4 crore annual spend · one RFx from live co-pilot drafting to award</div>
+
+<h2>What I decided, and why</h2>
+<ol>
+  <li><b>AI reads; code calculates.</b> Models turn messy documents into facts, and every fact cites its source cell, sentence or image region. Every number on screen is computed by deterministic code. <span class="why">A ₹4 crore decision can't rest on arithmetic a model did in its head.</span></li>
+  <li><b>Uncertainty is visible and never silently priced in.</b> Each value carries one status: verified, extracted, assumed, needs review, unresolved, not convertible or missing. Unresolved and missing values never enter totals. Needs-review values stay out of a formal award unless the buyer overrides it, and the override is audited. <span class="why">The answer to "what do you show when you're not sure" is: exactly that.</span></li>
+  <li><b>A photographed rate card is read, never trusted.</b> The page is found, flattened and read by OCR line by line, each line with its confidence. With one read path, every value from an image stays unresolved, its candidate shown, until the buyer confirms it.</li>
+  <li><b>Per box vs per 100 is never auto-corrected.</b> Stated units are converted exactly. A price about 100× its peers is flagged with a suggestion and excluded until the buyer confirms it. <span class="why">A wrong 100× fix is the worst failure on this screen.</span></li>
+  <li><b>"₹42/kg" converts only with a documented box weight, and says so.</b> A reference weight is shown as an assumption, because vendors invoice on actual weight; the ₹ exposure per 1% weight variance is disclosed. An engineering estimate needs review, and its constants are labelled "not validated". A missing input is never invented.</li>
+  <li><b>"Rest same as last year" isn't guessed.</b> It could mean the remaining prices or the remaining terms. Both readings are kept, flagged as unresolved, and a clarification email is drafted. A historical value is never applied without confirmation, and another vendor's price is never used.</li>
+  <li><b>Freight and tax are never guessed.</b> Awards compare landed cost where it is known. A quote that wins only because its freight is unknown is flagged with its break-even freight ("wins unless freight exceeds ₹0.62/box"), and the buyer must acknowledge it. A vendor silent on GST gets the RFx's stated tax basis as a disclosed assumption.</li>
+  <li><b>"Cleared the quality questionnaire" means the Quality section, with three states.</b> The states are Pass, Fail and Unverified (claimed but not proven). Unverified is excluded from strict awards but never called failed. Food-grade compliance gates only food-contact lines. Commercial terms are reported separately.</li>
+  <li><b>Show which uncertainty matters.</b> For every line the system works out whether an uncertain value could change the winner, and by how much. Those items come first, in the review queue and in one buyer-approved clarification pack per vendor. Lower-spec alternates stay out of an award unless included. Missing lines are disclosed, never filled.</li>
+  <li><b>One honest flow.</b> The item master is imported exactly. The co-pilot maps its columns, asks about gaps, and drafts the questionnaire and terms in a short conversation. A conformance check confirms it matches the specification the five pre-written vendor replies answer. Everything after that is live: extraction, comparison, analysis and award. The analyst's numbers are checked against tool results. It can't call an unverified vendor "failed", and answer keys are kept out of the app's reach.</li>
+</ol>
+
+<div class="cols">
+<div>
+<h2>What I deliberately left out</h2>
+<ul>
+  <li><b>Real email transport.</b> Simulated, as allowed. The AI loops are all real.</li>
+  <li><b>A vendor portal or forced template.</b> Vendors reply however they like.</li>
+  <li><b>Negotiation rounds, auctions, PO/ERP hand-off.</b> The flow ends at a defensible award.</li>
+  <li><b>Multi-user approvals and roles.</b> An audit log and an acknowledged award memo take their place.</li>
+  <li><b>Live FX and paper-index feeds.</b> A stated, editable rate is more transparent for a demo.</li>
+  <li><b>Vendor share caps, FX sensitivity, bulk actions.</b> Not needed to answer the brief.</li>
+  <li><b>Free-text document search by the analyst.</b> It sees structured facts and cited snippets only, so it can't invent what a document says.</li>
+  <li><b>Auto-applying vendor clarifications.</b> Clarifications are drafted for the buyer. The buyer confirms the answers.</li>
+  <li><b>A real phone photo, an independent realism review and a second (vision) read of images.</b> By my decision, the V4 rate card is an AI-generated image, labelled as such, and the dataset review was AI-written and checked by me, not by an independent buyer.</li>
+</ul>
+</div>
+<div>
+<h2>Where I think the real problem is</h2>
+<ul>
+  <li><b>Normalisation, not extraction.</b> Reading the text is close to solved. Deciding what "per box", "38" or "same as last year" <i>means</i> is the product.</li>
+  <li><b>The clarification loop is where the days go.</b> Turning uncertainty into one precise, batched question per vendor may save more time than reading documents faster.</li>
+  <li><b>Messy replies start with vague RFxs.</b> A co-pilot that writes unambiguous specs and a response basis prevents work later.</li>
+  <li><b>"Cheapest qualified" may be the wrong objective.</b> For packaging, escalation clauses, lead-time reliability and damage rates can outweigh unit price.</li>
+</ul>
+</div>
+</div>
+<div class="foot">Decision record: docs/08_final_product_decisions.md and docs/02_PRD.md §0.1 (DL-1…DL-32). Requirements reference: docs/00_source_of_truth.md. Regenerate this page and re-validate it as one page whenever a listed decision changes (Plan M10, C3).</div>
+</body>
+</html>

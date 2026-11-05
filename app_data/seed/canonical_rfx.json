@@ -1,0 +1,1738 @@
+{
+  "rfx_code": "PUNE-PKG-2026",
+  "title": "Annual corrugated packaging — Chakan plant, Pune (FY2027)",
+  "issued": "2026-10-20",
+  "scope": "Supply of 30 corrugated packaging SKUs (RSC boxes, die-cut boxes, partitions, pads) for one year.",
+  "delivery_location": "Chakan plant, Pune",
+  "dimension_convention": "internal",
+  "response_basis": {
+    "unit": "per box (piece)",
+    "currency": "INR",
+    "freight_basis": "delivered to plant preferred; state freight separately if not included",
+    "gst_treatment": "prices exclusive of GST",
+    "validity_days": 90
+  },
+  "lines": [
+    {
+      "line_no": 1,
+      "sku_code": "PK-C101",
+      "description": "RSC shipper 3-ply, 1-colour logo",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 250,
+        "W": 200,
+        "H": 150
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 138000,
+      "reference_unit_weight_g": 160,
+      "reference_weight_source": "Item master IM-2026 row 2 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "6b61d4d829c2b3dd"
+    },
+    {
+      "line_no": 2,
+      "sku_code": "PK-C102",
+      "description": "RSC shipper 3-ply, 1-colour logo",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 300,
+        "W": 250,
+        "H": 200
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 103500,
+      "reference_unit_weight_g": 245,
+      "reference_weight_source": "Item master IM-2026 row 3 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "dc2afd117a682312"
+    },
+    {
+      "line_no": 3,
+      "sku_code": "PK-C103",
+      "description": "RSC carton 3-ply C-flute, 1-colour",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 350,
+        "W": 250,
+        "H": 250
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "C",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 22
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "C"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 22
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 73500,
+      "reference_unit_weight_g": 375,
+      "reference_weight_source": "Item master IM-2026 row 4 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "d95061bd99c89262"
+    },
+    {
+      "line_no": 4,
+      "sku_code": "PK-C104",
+      "description": "RSC inner carton 3-ply (food contact)",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 200,
+        "W": 150,
+        "H": 100
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 100,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 207500,
+      "reference_unit_weight_g": 70,
+      "reference_weight_source": "Item master IM-2026 row 5 (std. weight, QA lab)",
+      "food_contact": true,
+      "requires_fsc": false,
+      "spec_signature": "93c7835b06b1edbd"
+    },
+    {
+      "line_no": 5,
+      "sku_code": "PK-C105",
+      "description": "RSC retail carton 3-ply, 2-colour (food contact)",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 220,
+        "W": 180,
+        "H": 120
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 2,
+        "type": "flexo"
+      },
+      "annual_qty": 161500,
+      "reference_unit_weight_g": 121,
+      "reference_weight_source": "Item master IM-2026 row 6 (std. weight, QA lab)",
+      "food_contact": true,
+      "requires_fsc": false,
+      "spec_signature": "a47ac3a11e3e930c"
+    },
+    {
+      "line_no": 6,
+      "sku_code": "PK-C106",
+      "description": "RSC carton 3-ply C-flute, 1-colour",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 400,
+        "W": 300,
+        "H": 250
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "C",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 22
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "C"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 22
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 69000,
+      "reference_unit_weight_g": null,
+      "reference_weight_source": null,
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "2871fe58c30b3c26"
+    },
+    {
+      "line_no": 7,
+      "sku_code": "PK-C201",
+      "description": "RSC master carton 5-ply BC, 2-colour",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 400,
+        "W": 300,
+        "H": 300
+      },
+      "blank_size_mm": null,
+      "ply": 5,
+      "flute_profile": "BC",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 2,
+        "type": "flexo"
+      },
+      "annual_qty": 57500,
+      "reference_unit_weight_g": 768,
+      "reference_weight_source": "Item master IM-2026 row 8 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "bc32301a9ba20c57"
+    },
+    {
+      "line_no": 8,
+      "sku_code": "PK-C202",
+      "description": "RSC master carton 5-ply BC, 2-colour",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 450,
+        "W": 350,
+        "H": 300
+      },
+      "blank_size_mm": null,
+      "ply": 5,
+      "flute_profile": "BC",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 2,
+        "type": "flexo"
+      },
+      "annual_qty": 50500,
+      "reference_unit_weight_g": 952,
+      "reference_weight_source": "Item master IM-2026 row 9 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "0512a277ecbf0503"
+    },
+    {
+      "line_no": 9,
+      "sku_code": "PK-C203",
+      "description": "RSC heavy carton 5-ply BC, 1-colour",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 500,
+        "W": 400,
+        "H": 350
+      },
+      "blank_size_mm": null,
+      "ply": 5,
+      "flute_profile": "BC",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 22
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 22
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 22
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 41500,
+      "reference_unit_weight_g": 1409,
+      "reference_weight_source": "Item master IM-2026 row 10 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "fae3d42ffe475757"
+    },
+    {
+      "line_no": 10,
+      "sku_code": "PK-C204",
+      "description": "RSC shipper 5-ply BC, 1-colour (food contact)",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 350,
+        "W": 300,
+        "H": 250
+      },
+      "blank_size_mm": null,
+      "ply": 5,
+      "flute_profile": "BC",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 64500,
+      "reference_unit_weight_g": 649,
+      "reference_weight_source": "Item master IM-2026 row 11 (std. weight, QA lab)",
+      "food_contact": true,
+      "requires_fsc": false,
+      "spec_signature": "d7353745926a3994"
+    },
+    {
+      "line_no": 11,
+      "sku_code": "PK-C205",
+      "description": "RSC heavy carton 5-ply BC, plain",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 600,
+        "W": 400,
+        "H": 400
+      },
+      "blank_size_mm": null,
+      "ply": 5,
+      "flute_profile": "BC",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 22
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 22
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 22
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 27500,
+      "reference_unit_weight_g": null,
+      "reference_weight_source": null,
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "10002153e5c63819"
+    },
+    {
+      "line_no": 12,
+      "sku_code": "PK-C206",
+      "description": "RSC carton 5-ply BC, 1-colour",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 300,
+        "W": 250,
+        "H": 250
+      },
+      "blank_size_mm": null,
+      "ply": 5,
+      "flute_profile": "BC",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 80500,
+      "reference_unit_weight_g": 467,
+      "reference_weight_source": "Item master IM-2026 row 13 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "be25297e242fd3d3"
+    },
+    {
+      "line_no": 13,
+      "sku_code": "PK-C207",
+      "description": "RSC carton 5-ply BC, 1-colour",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 550,
+        "W": 450,
+        "H": 300
+      },
+      "blank_size_mm": null,
+      "ply": 5,
+      "flute_profile": "BC",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 34500,
+      "reference_unit_weight_g": 1330,
+      "reference_weight_source": "Item master IM-2026 row 14 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "42eb59fae8dd71ab"
+    },
+    {
+      "line_no": 14,
+      "sku_code": "PK-C107",
+      "description": "RSC shipper 3-ply, plain",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 280,
+        "W": 220,
+        "H": 160
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 115000,
+      "reference_unit_weight_g": 192,
+      "reference_weight_source": "Item master IM-2026 row 15 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "2a07a27b0b362a80"
+    },
+    {
+      "line_no": 15,
+      "sku_code": "PK-C301",
+      "description": "RSC heavy-duty 7-ply BCB, plain",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 600,
+        "W": 500,
+        "H": 500
+      },
+      "blank_size_mm": null,
+      "ply": 7,
+      "flute_profile": "BCB",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 250,
+          "bf": 25
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 25
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 25
+        },
+        {
+          "position": 6,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 7,
+          "role": "liner",
+          "gsm": 250,
+          "bf": 25
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 18500,
+      "reference_unit_weight_g": 3522,
+      "reference_weight_source": "Item master IM-2026 row 16 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "c6170533588381fd"
+    },
+    {
+      "line_no": 16,
+      "sku_code": "PK-C302",
+      "description": "RSC heavy-duty 7-ply BCB, plain",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 700,
+        "W": 500,
+        "H": 450
+      },
+      "blank_size_mm": null,
+      "ply": 7,
+      "flute_profile": "BCB",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 250,
+          "bf": 25
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 25
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 25
+        },
+        {
+          "position": 6,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 7,
+          "role": "liner",
+          "gsm": 250,
+          "bf": 25
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 14000,
+      "reference_unit_weight_g": 3617,
+      "reference_weight_source": "Item master IM-2026 row 17 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "8350509100c0dc21"
+    },
+    {
+      "line_no": 17,
+      "sku_code": "PK-C303",
+      "description": "RSC export carton 7-ply BCB, 1-colour",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 800,
+        "W": 600,
+        "H": 500
+      },
+      "blank_size_mm": null,
+      "ply": 7,
+      "flute_profile": "BCB",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 250,
+          "bf": 25
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 25
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 25
+        },
+        {
+          "position": 6,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 7,
+          "role": "liner",
+          "gsm": 250,
+          "bf": 25
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 11500,
+      "reference_unit_weight_g": 4928,
+      "reference_weight_source": "Item master IM-2026 row 18 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "e4b89624c687f576"
+    },
+    {
+      "line_no": 18,
+      "sku_code": "PK-C304",
+      "description": "RSC heavy-duty 7-ply BCB, plain",
+      "item_type": "RSC",
+      "dims_mm": {
+        "L": 650,
+        "W": 450,
+        "H": 450
+      },
+      "blank_size_mm": null,
+      "ply": 7,
+      "flute_profile": "BCB",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 250,
+          "bf": 25
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 25
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 200,
+          "bf": 25
+        },
+        {
+          "position": 6,
+          "role": "medium",
+          "gsm": 150,
+          "bf": 18,
+          "flute": "B"
+        },
+        {
+          "position": 7,
+          "role": "liner",
+          "gsm": 250,
+          "bf": 25
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 16000,
+      "reference_unit_weight_g": 3179,
+      "reference_weight_source": "Item master IM-2026 row 19 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "fa04f7ef3674c18f"
+    },
+    {
+      "line_no": 19,
+      "sku_code": "PK-D401",
+      "description": "Die-cut e-commerce mailer 3-ply E-flute, 4-colour",
+      "item_type": "DIE_CUT",
+      "dims_mm": {
+        "L": 320,
+        "W": 240,
+        "H": 60
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "E",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "E"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 4,
+        "type": "flexo"
+      },
+      "annual_qty": 92000,
+      "reference_unit_weight_g": null,
+      "reference_weight_source": null,
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "eb5dcab335d88803"
+    },
+    {
+      "line_no": 20,
+      "sku_code": "PK-D402",
+      "description": "Die-cut e-commerce mailer 3-ply E-flute, 4-colour",
+      "item_type": "DIE_CUT",
+      "dims_mm": {
+        "L": 260,
+        "W": 200,
+        "H": 80
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "E",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "E"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 4,
+        "type": "flexo"
+      },
+      "annual_qty": 103500,
+      "reference_unit_weight_g": null,
+      "reference_weight_source": null,
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "77e689073a9bffc7"
+    },
+    {
+      "line_no": 21,
+      "sku_code": "PK-D403",
+      "description": "Die-cut tray 3-ply B-flute, plain",
+      "item_type": "DIE_CUT",
+      "dims_mm": {
+        "L": 400,
+        "W": 300,
+        "H": 100
+      },
+      "blank_size_mm": {
+        "L": 700,
+        "W": 600
+      },
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 46000,
+      "reference_unit_weight_g": 202,
+      "reference_weight_source": "Item master IM-2026 row 22 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "78a87864d51308c8"
+    },
+    {
+      "line_no": 22,
+      "sku_code": "PK-D404",
+      "description": "Die-cut display tray 5-ply BC, 2-colour",
+      "item_type": "DIE_CUT",
+      "dims_mm": {
+        "L": 500,
+        "W": 350,
+        "H": 150
+      },
+      "blank_size_mm": {
+        "L": 900,
+        "W": 750
+      },
+      "ply": 5,
+      "flute_profile": "BC",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 2,
+        "type": "flexo"
+      },
+      "annual_qty": 18500,
+      "reference_unit_weight_g": 601,
+      "reference_weight_source": "Item master IM-2026 row 23 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "7f363a2d7d4165ea"
+    },
+    {
+      "line_no": 23,
+      "sku_code": "PK-D405",
+      "description": "Die-cut crash-lock box 3-ply B-flute, 1-colour",
+      "item_type": "DIE_CUT",
+      "dims_mm": {
+        "L": 300,
+        "W": 200,
+        "H": 150
+      },
+      "blank_size_mm": {
+        "L": 760,
+        "W": 520
+      },
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 34500,
+      "reference_unit_weight_g": 192,
+      "reference_weight_source": "Item master IM-2026 row 24 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "f8fc17c3c1efbd7a"
+    },
+    {
+      "line_no": 24,
+      "sku_code": "PK-D406",
+      "description": "Die-cut sleeve 5-ply BC, 1-colour",
+      "item_type": "DIE_CUT",
+      "dims_mm": {
+        "L": 450,
+        "W": 300,
+        "H": 250
+      },
+      "blank_size_mm": null,
+      "ply": 5,
+      "flute_profile": "BC",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 4,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "C"
+        },
+        {
+          "position": 5,
+          "role": "liner",
+          "gsm": 180,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 1,
+        "type": "flexo"
+      },
+      "annual_qty": 23000,
+      "reference_unit_weight_g": null,
+      "reference_weight_source": null,
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "f0ee266ac8ec963e"
+    },
+    {
+      "line_no": 25,
+      "sku_code": "PK-P501",
+      "description": "Partition set 12-cell, 3-ply B (for PK-C201)",
+      "item_type": "PARTITION",
+      "dims_mm": {
+        "L": 390,
+        "W": 290,
+        "H": 280
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 100,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 57500,
+      "reference_unit_weight_g": null,
+      "reference_weight_source": null,
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "092c840bd57b0d17"
+    },
+    {
+      "line_no": 26,
+      "sku_code": "PK-P502",
+      "description": "Partition set 24-cell, 3-ply B (for PK-C202)",
+      "item_type": "PARTITION",
+      "dims_mm": {
+        "L": 440,
+        "W": 340,
+        "H": 280
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 100,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 50500,
+      "reference_unit_weight_g": null,
+      "reference_weight_source": null,
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "68320acaef39a47d"
+    },
+    {
+      "line_no": 27,
+      "sku_code": "PK-P503",
+      "description": "Partition set 6-cell, 3-ply B (for PK-C102)",
+      "item_type": "PARTITION",
+      "dims_mm": {
+        "L": 290,
+        "W": 240,
+        "H": 190
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 100,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 69000,
+      "reference_unit_weight_g": null,
+      "reference_weight_source": null,
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "83e77ec40aaae4af"
+    },
+    {
+      "line_no": 28,
+      "sku_code": "PK-P504",
+      "description": "Partition set 9-cell, 3-ply B (for PK-C206)",
+      "item_type": "PARTITION",
+      "dims_mm": {
+        "L": 290,
+        "W": 240,
+        "H": 240
+      },
+      "blank_size_mm": null,
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 100,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 120,
+          "bf": 18
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 46000,
+      "reference_unit_weight_g": null,
+      "reference_weight_source": null,
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "cff95371a5c8515e"
+    },
+    {
+      "line_no": 29,
+      "sku_code": "PK-S601",
+      "description": "Layer pad 3-ply B, plain",
+      "item_type": "PAD",
+      "dims_mm": {
+        "L": 400,
+        "W": 300,
+        "H": null
+      },
+      "blank_size_mm": {
+        "L": 400,
+        "W": 300
+      },
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 138000,
+      "reference_unit_weight_g": 57,
+      "reference_weight_source": "Item master IM-2026 row 30 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "9792af246a85da11"
+    },
+    {
+      "line_no": 30,
+      "sku_code": "PK-S602",
+      "description": "Layer pad 3-ply B, plain",
+      "item_type": "PAD",
+      "dims_mm": {
+        "L": 600,
+        "W": 400,
+        "H": null
+      },
+      "blank_size_mm": {
+        "L": 600,
+        "W": 400
+      },
+      "ply": 3,
+      "flute_profile": "B",
+      "layers": [
+        {
+          "position": 1,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        },
+        {
+          "position": 2,
+          "role": "medium",
+          "gsm": 120,
+          "bf": 16,
+          "flute": "B"
+        },
+        {
+          "position": 3,
+          "role": "liner",
+          "gsm": 150,
+          "bf": 20
+        }
+      ],
+      "printing": {
+        "colours": 0,
+        "type": "plain"
+      },
+      "annual_qty": 92000,
+      "reference_unit_weight_g": 116,
+      "reference_weight_source": "Item master IM-2026 row 31 (std. weight, QA lab)",
+      "food_contact": false,
+      "requires_fsc": false,
+      "spec_signature": "0db2dcbe3a0d526c"
+    }
+  ],
+  "questionnaire": [
+    {
+      "no": "Q1",
+      "requirement_key": "QC-01",
+      "section": "QUALITY",
+      "applicability": "ALL",
+      "text": "Is your converting plant certified to ISO 9001:2015? Attach a valid certificate.",
+      "answer_type": "document",
+      "mandatory": true,
+      "pass_rule": {
+        "op": "==",
+        "value": "yes"
+      },
+      "evidence_required": true,
+      "evidence_doc_type": "ISO_9001_CERTIFICATE"
+    },
+    {
+      "no": "Q2",
+      "requirement_key": "QC-02",
+      "section": "QUALITY",
+      "applicability": "ALL",
+      "text": "Can you provide BCT/ECT test reports from an accredited lab for representative SKUs? Attach a recent report.",
+      "answer_type": "document",
+      "mandatory": true,
+      "pass_rule": {
+        "op": "==",
+        "value": "yes"
+      },
+      "evidence_required": true,
+      "evidence_doc_type": "BCT_ECT_TEST_REPORT"
+    },
+    {
+      "no": "Q3",
+      "requirement_key": "QC-03",
+      "section": "QUALITY",
+      "applicability": "LINES_WITH_FLAG(food_contact)",
+      "text": "For food-contact cartons, do you provide a declaration of conformity for food-contact paperboard? Attach it.",
+      "answer_type": "document",
+      "mandatory": true,
+      "pass_rule": {
+        "op": "==",
+        "value": "yes"
+      },
+      "evidence_required": true,
+      "evidence_doc_type": "FOOD_CONTACT_DECLARATION"
+    },
+    {
+      "no": "Q4",
+      "requirement_key": "QC-04",
+      "section": "QUALITY",
+      "applicability": "ALL",
+      "text": "Monthly converting capacity available for our volumes (tonnes/month).",
+      "answer_type": "number",
+      "mandatory": true,
+      "pass_rule": {
+        "op": ">=",
+        "value": 250
+      },
+      "evidence_required": false,
+      "evidence_doc_type": null
+    },
+    {
+      "no": "Q5",
+      "requirement_key": "QC-05",
+      "section": "QUALITY",
+      "applicability": "ALL",
+      "text": "Do you have in-house flexo printing (up to 4 colours)?",
+      "answer_type": "yes_no",
+      "mandatory": true,
+      "pass_rule": {
+        "op": "==",
+        "value": "yes"
+      },
+      "evidence_required": false,
+      "evidence_doc_type": null
+    },
+    {
+      "no": "Q6",
+      "requirement_key": "CP-01",
+      "section": "COMMERCIAL",
+      "applicability": "ALL",
+      "text": "Do you accept payment terms of 60 days from invoice?",
+      "answer_type": "yes_no",
+      "mandatory": true,
+      "pass_rule": {
+        "op": "==",
+        "value": "yes"
+      },
+      "evidence_required": false,
+      "evidence_doc_type": null
+    },
+    {
+      "no": "Q7",
+      "requirement_key": "CP-02",
+      "section": "COMMERCIAL",
+      "applicability": "ALL",
+      "text": "Standard lead time from PO to delivery (days). Requirement: 15 days or less.",
+      "answer_type": "number",
+      "mandatory": true,
+      "pass_rule": {
+        "op": "<=",
+        "value": 15
+      },
+      "evidence_required": false,
+      "evidence_doc_type": null
+    },
+    {
+      "no": "Q8",
+      "requirement_key": "CP-03",
+      "section": "COMMERCIAL",
+      "applicability": "ALL",
+      "text": "Are you GST-registered? Provide your GSTIN.",
+      "answer_type": "text",
+      "mandatory": true,
+      "pass_rule": {
+        "op": "present"
+      },
+      "evidence_required": false,
+      "evidence_doc_type": null
+    }
+  ],
+  "terms": [
+    {
+      "type": "PAYMENT",
+      "text": "Payment 60 days from invoice."
+    },
+    {
+      "type": "LEAD_TIME",
+      "text": "Lead time 15 days or less from PO."
+    },
+    {
+      "type": "GST_REGISTRATION",
+      "text": "Supplier must be GST-registered."
+    }
+  ]
+}

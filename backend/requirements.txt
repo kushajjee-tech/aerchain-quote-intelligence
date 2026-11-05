@@ -1,0 +1,13 @@
+fastapi==0.162.0
+uvicorn[standard]
+sqlalchemy==2.1.8
+pydantic==2.14.2
+anthropic==2.4.0
+openpyxl
+python-docx
+httpx
+pytest
+sqlglot
+pypdf==5.1.0
+pillow==11.0.0
+numpy==2.1.3

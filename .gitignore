@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+app_data/app.db
+app_data/storage/*
+!app_data/storage/.keep
+frontend/node_modules/
+frontend/dist/
+.DS_Store
+
+# local secrets (never committed)
+.env
+.env.*
+
+# local tooling and runtime files
+.claude/
+app_data/uploads/
+*.log

@@ -16,6 +16,21 @@ DEFAULT_EVAL_ROOT_HINT = REPO_ROOT.parent / "aerchain-eval"
 _EVAL_ENV_VAR = "EVAL_ROOT"
 
 
+FRONTEND_DIST = REPO_ROOT / "frontend" / "dist"   # the built UI, served by app.serve in the hosted demo
+
+
+def frontend_assets_dir() -> str | None:
+    d = FRONTEND_DIST / "assets"
+    return str(d) if d.is_dir() else None
+
+
+def frontend_file(path: str) -> str:
+    """A file of the built UI, or index.html for client-side routes. Never resolves outside the dist folder."""
+    root = FRONTEND_DIST.resolve()
+    f = (root / path).resolve()
+    return str(f) if path and f.is_file() and root in f.parents else str(root / "index.html")
+
+
 class StartupIsolationError(RuntimeError):
     """Raised when the app could see evaluation material."""
 

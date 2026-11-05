@@ -1,0 +1,12 @@
+# Render Blueprint for the public demo (Dashboard → New → Blueprint → this repo).
+services:
+  - type: web
+    name: aerchain-quote-intelligence
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false   # entered in the Render dashboard, never committed

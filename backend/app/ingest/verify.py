@@ -93,7 +93,8 @@ def _adjacent(a: EvidenceUnit, b: EvidenceUnit) -> bool:
 
 
 def check_inheritance(lq: LineQuote, units: dict[str, EvidenceUnit]) -> EvidenceCheck:
-    src, price = lq.unit_inherited_from, lq.price
+    src = lq.unit_inherited_from
+    price = lq.price or (lq.slabs[0].price if lq.slabs else None)  # slab-only lines inherit like single prices
     if src is None or price is None:
         return EvidenceCheck(False, ["UNIT_UNKNOWN"])
     if not check_evidence(src, units).ok or not has_unit_token(src.quote):

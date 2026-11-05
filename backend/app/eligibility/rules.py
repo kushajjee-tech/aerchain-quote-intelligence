@@ -3,6 +3,8 @@ document facts; these rules decide. Line-scoped questions never enter vendor rol
 cells on flagged lines only. Unverified is never reported as Fail."""
 from __future__ import annotations
 
+import re
+
 from dataclasses import dataclass, field
 from datetime import date
 from decimal import Decimal, InvalidOperation
@@ -39,6 +41,18 @@ def _norm_entity(s: str | None) -> str:
     return " ".join((s or "").lower().replace(".", "").replace(",", "").split())
 
 
+YES = re.compile(r"^(yes|y|ok|okay|accepted|agreed|confirmed|sure)\b")
+NO = re.compile(r"^(no|n|not\b|cannot|can't|unable)\b")
+
+
+def _yes_no(v: str) -> str | None:
+    if YES.match(v):
+        return "yes"
+    if NO.match(v):
+        return "no"
+    return None
+
+
 def _meets(rule: dict | None, value: str | None) -> bool | None:
     """True/False if the answer can be judged against the rule; None if it can't."""
     if rule is None:
@@ -51,8 +65,9 @@ def _meets(rule: dict | None, value: str | None) -> bool | None:
     v = str(value).strip().lower()
     if op == "==":
         target = str(rule["value"]).lower()
-        if v in ("yes", "y", "no", "n") and target in ("yes", "no"):
-            return v.startswith(target[0])
+        if target in ("yes", "no"):
+            said = _yes_no(v)
+            return None if said is None else said == target  # unclear answers are Unverified, never Failed
         return v == target
     try:
         num, target = Decimal(v.replace(",", "").split()[0]), Decimal(str(rule["value"]))

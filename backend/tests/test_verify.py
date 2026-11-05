@@ -101,3 +101,16 @@ def test_unit_from_column_header_or_declaration():
     assert _inherit(decl, _u("D2:p1l30", "0.0864", page=1, line=30), "0.0864") == ["UNIT_INHERITED"]
     assert _inherit(_u("D2:p1l2", "Delivered per box to Chakan", page=1, line=2),
                     _u("D2:p1l30", "0.0864", page=1, line=30), "0.0864") == ["UNIT_UNKNOWN"]       # no price word/declaration
+
+
+def test_slab_only_line_inherits_header_unit():
+    """Live finding: V1's lines carry only quantity-slab prices; the header unit was never checked for them."""
+    from app.ingest.schemas import Evidence, LineQuote, Price, Slab
+    from app.ingest.verify import check_inheritance
+    hdr = _u("D2:Q!H5", "Rate (₹ per pc) — quantity slabs (annual)", sheet="Q", row=5, col=8)
+    cells = {c: _u(f"D2:Q!{c}8", v, sheet="Q", row=8, col=col) for c, v, col in (("H", "7.43", 8), ("I", "7.01", 9), ("J", "6.73", 10))}
+    lq = LineQuote(vendor_line_ref="1", description_as_stated="x", unit_class="PER_BOX", unit_source="INHERITED_FROM_CONTEXT",
+                   unit_inherited_from=Evidence(unit_ids=[hdr.id], quote=hdr.text),
+                   slabs=[Slab(price=Price(value_as_stated=u.text, currency_source="INHERITED_FROM_CONTEXT",
+                                           evidence=Evidence(unit_ids=[u.id], quote=u.text))) for u in cells.values()])
+    assert check_inheritance(lq, {hdr.id: hdr, **{u.id: u for u in cells.values()}}).reasons == ["UNIT_INHERITED"]

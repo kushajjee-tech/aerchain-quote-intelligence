@@ -116,3 +116,12 @@ def test_fx_conversion_preserves_original():
     assert t["original"] == "0.0500" and t["rate"] == "88.50" and t["as_of"] == "2026-10-28"
     missing = normalize_cell(LINE, QuoteInput(value=D("0.05"), unit_class="PER_BOX", currency="USD"), CTX)
     assert missing.unit_status == S.UNRESOLVED and missing.unit_price_inr_ex_gst is None
+
+
+def test_yes_no_answers_as_vendors_write_them():
+    """Live finding: 'OK' and 'Yes, 2 colour' were judged Failed. Unclear answers must be Unverified, never Failed."""
+    from app.eligibility.rules import _meets
+    rule = {"op": "==", "value": "yes"}
+    assert _meets(rule, "OK") is True and _meets(rule, "Yes, 2 colour") is True and _meets(rule, "Accepted") is True
+    assert _meets(rule, "No") is False and _meets(rule, "Not possible") is False
+    assert _meets(rule, "can arrange if required") is None

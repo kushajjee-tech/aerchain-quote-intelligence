@@ -268,3 +268,15 @@ table.t.dense td { padding: 6px 10px; }
 .shell.assistant-open .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .shell.assistant-open .g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .shell.assistant-open .page-h h1 { font-size: 22px; }
+
+/* ---------- product walkthrough ---------- */
+.tour-target { outline: 3px solid var(--primary) !important; outline-offset: 6px; border-radius: 10px; transition: outline-color .2s; }
+.tour-card { position: fixed; left: calc(var(--sidebar) + 24px); bottom: 24px; width: 380px; z-index: 36; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-pop); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+.tour-count { font-size: 11px; font-weight: 650; color: var(--primary); text-transform: uppercase; letter-spacing: .05em; }
+.tour-title { font-size: 16px; }
+.tour-body { margin: 0; font-size: 14px; color: var(--text-2); line-height: 1.55; }
+.tour-dots { display: flex; gap: 6px; align-items: center; }
+.tour-dots span { width: 8px; height: 8px; border-radius: 4px; background: var(--border-strong); transition: width .2s; }
+.tour-dots span.on { background: var(--primary); width: 22px; }
+@media (max-width: 800px) { .tour-card { left: 12px; right: 12px; width: auto; bottom: 12px; } }

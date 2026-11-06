@@ -11,6 +11,7 @@ import Vendors from "./pages/Vendors";
 import { RfxProvider, useRfx } from "./rfx";
 import Shell from "./Shell";
 import { AssistantProvider } from "./assistant";
+import { TourProvider } from "./tour";
 import { EmptyState, ErrorState, Skeleton } from "./ui";
 import { Link } from "react-router-dom";
 
@@ -26,6 +27,7 @@ export default function App() {
   return (
     <RfxProvider>
       <AssistantProvider>
+      <TourProvider>
       <Shell>
         <Routes>
           <Route path="/" element={<Gate><Home /></Gate>} />
@@ -40,6 +42,7 @@ export default function App() {
           <Route path="*" element={<EmptyState title="Page not found"><Link to="/">Go to Home</Link></EmptyState>} />
         </Routes>
       </Shell>
+      </TourProvider>
       </AssistantProvider>
     </RfxProvider>
   );

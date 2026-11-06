@@ -6,6 +6,7 @@ import { api } from "./api";
 import { OPEN, useRfx } from "./rfx";
 import { Badge } from "./ui";
 import { AssistantPanel, useAssistant } from "./assistant";
+import { useTour } from "./tour";
 
 const NAV = [
   { to: "/", label: "Home", icon: Home, end: true },
@@ -151,6 +152,7 @@ export default function Shell({ children }: { children: ReactNode }) {
   const blockers = (overview?.findings ?? []).filter((f) => f.severity === "blocker" && OPEN.includes(f.review.state)).length;
   const buyer = overview?.rfx.meta.buyer_name;
   const { open: assistantOpen } = useAssistant();
+  const { start: startTour } = useTour();
   return (
     <div className={`shell ${assistantOpen ? "assistant-open" : ""}`}>
       <aside className="sidebar">
@@ -170,6 +172,7 @@ export default function Shell({ children }: { children: ReactNode }) {
           <RfxSelector />
           {overview?.rfx.demo && <Badge tone="violet" title="This RFx runs on the evaluation fixture (synthetic vendors and documents).">Demo / evaluation RFx</Badge>}
           <div className="grow" style={{ display: "flex", justifyContent: "center" }}><GlobalSearch /></div>
+          <button className="btn sm" onClick={startTour} title="A short guided walkthrough of the product">Take the tour</button>
           <Notifications />
           <div className="row" style={{ gap: 8 }} title="Signed-in buyer (from the RFx fixture)">
             <span className="brand-mark" style={{ background: "var(--surface-3)", color: "var(--text-2)", borderRadius: "50%" }}><User size={15} /></span>

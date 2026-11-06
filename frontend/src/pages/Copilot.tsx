@@ -50,43 +50,42 @@ function Drafting() {
     try { const r = await fn(); note(true, `${label}: done`); await load(); await refresh(); return r; }
     catch (e) { note(false, `${label}: ${String(e).replace(/^Error: /, "")}`); } finally { setBusy(null); }
   };
-  const start = (sandbox: boolean) => run(sandbox ? "New sandbox RFx" : "Draft from brief pack", async () => {
-    const r = await api("/rfx/primary", { body: { title: sandbox ? "Sandbox RFx" : "Annual corrugated packaging RFx", sandbox } });
+  const create = (sandbox: boolean) => run(sandbox ? "Practice copy" : "Create RFx", async () => {
+    const r = await api("/rfx/primary", { body: { title: sandbox ? "Practice RFx" : "Annual corrugated packaging RFx", sandbox } });
     await reloadList(); setRfxId(r.rfx_id); setMapping(r.mapping_proposal.mappings); setAdding(false); await load(r.rfx_id);
   });
   const open: string[] = h?.open_fields ?? [];
-  const questionnaireDone = !!h?.patches.some((p: any) => p.action === "QUESTIONNAIRE_APPLIED" || p.action === "SEEDED_FALLBACK_LOADED");
+  const questionsDone = !!h?.patches.some((p: any) => p.action === "QUESTIONNAIRE_APPLIED" || p.action === "SEEDED_FALLBACK_LOADED");
   const checked = !!h?.conformance?.conforms;
   const approved = ["approved", "sent"].includes(h?.status);
   const sent = h?.status === "sent";
-  // The one step to do next. Everything else is hidden until it is needed.
-  const current = !h || adding ? "add" : mapping ? "columns" : open.length > 0 ? "fields" : !questionnaireDone ? "questionnaire"
+  // Five steps. The first one not finished is the one to do; the rest are hidden until then.
+  const current = !h || adding ? "create" : mapping ? "create" : open.length > 0 || !questionsDone ? "fill"
     : !approved ? "check" : !sent ? "send" : "replies";
-  const steps = [["Add", "add"], ["Fill in", "fields"], ["Questions", "questionnaire"], ["Check", "check"], ["Send", "send"], ["Replies", "replies"]] as const;
-  const stepIndex = { add: 0, columns: 0, fields: 1, questionnaire: 2, check: 3, send: 4, replies: 5 } as Record<string, number>;
+  const steps = ["Create", "Fill in", "Check", "Send", "Replies"];
+  const stepIndex: Record<string, number> = { create: 0, fill: 1, check: 2, send: 3, replies: 4 };
   return (
     <div className="stack" style={{ gap: 16 }}>
-      {h && !adding && <Card title={`RFx #${h.rfx_id} · ${h.title}`} actions={<Badge tone="outline">{h.status}</Badge>}>
-        <div className="row wrap" style={{ gap: 6 }}>{steps.map(([label], i) => (
+      {h && !adding && <Card title={`${h.title}`} actions={<Badge tone="outline">{h.status}</Badge>}>
+        <div className="row wrap" style={{ gap: 6 }}>{steps.map((label, i) => (
           <Badge key={label} tone={i < stepIndex[current] ? "success" : i === stepIndex[current] ? "info" : "outline"}>{i + 1}. {label}</Badge>))}</div>
         <dl className="kv" style={{ marginTop: 14 }}>
           <dt>Scope</dt><dd>{h.scope ?? <span className="subtle">Not filled in yet</span>}</dd>
           <dt>Delivery</dt><dd>{h.delivery_location ?? "—"}</dd>
         </dl>
-        <Button variant="ghost" style={{ marginTop: 10 }} onClick={() => setAdding(true)}>+ Start another RFx</Button>
+        <Button variant="ghost" style={{ marginTop: 10 }} onClick={() => setAdding(true)}>+ New RFx</Button>
       </Card>}
 
-      {current === "add" && <Card title="Add an RFx">
-        <Hint>Creates a new RFx from the brief files. The AI only suggests; nothing changes until you confirm.</Hint>
-        <div className="row wrap">
-          <Button variant="primary" loading={busy === "Draft from brief pack"} onClick={() => start(false)}>Draft from brief pack (AI)</Button>
-          <Button loading={busy === "New sandbox RFx"} onClick={() => start(true)}>New sandbox RFx (AI)</Button>
-          <Button loading={busy === "Load seeded fallback"} onClick={() => run("Load seeded fallback", async () => { const r = await api("/rfx/seeded-fallback", { body: {} }); await reloadList(); setRfxId(r.rfx_id); setAdding(false); })}>Ready-made RFx (no AI)</Button>
+      {current === "create" && !mapping && <Card title="1 · Create an RFx">
+        <Hint>The AI reads the brief files and proposes a new RFx. Nothing is saved until you confirm the next steps.</Hint>
+        <Button variant="primary" loading={busy === "Create RFx"} onClick={() => create(false)}>Create RFx from brief files (AI)</Button>
+        <div className="subtle" style={{ marginTop: 12 }}>
+          Other options: <Button variant="ghost" loading={busy === "Practice copy"} onClick={() => create(true)}>Practice copy</Button> (for trying things out, never sent to vendors) ·{" "}
+          <Button variant="ghost" loading={busy === "Load seeded fallback"} onClick={() => run("Load seeded fallback", async () => { const r = await api("/rfx/seeded-fallback", { body: {} }); await reloadList(); setRfxId(r.rfx_id); setAdding(false); })}>Sample RFx</Button> (fixed copy, no AI)
         </div>
-        <Hint>Sandbox: for trying things out, never sent to vendors. Ready-made: a fixed reference copy, no AI.</Hint>
       </Card>}
 
-      {current === "columns" && mapping && <Card title="Confirm columns">
+      {mapping && <Card title="1 · Check the columns">
         <Hint>The AI matched each spreadsheet column to a field. Fix any that are wrong, then import.</Hint>
         <table className="t dense"><tbody>{mapping.map((m, i) => (
           <tr key={i}><td>{m.column}</td><td>→</td><td><input className="input" value={m.field ?? ""} onChange={(e) => setMapping(mapping.map((x, k) => k === i ? { ...x, field: e.target.value } : x))} /></td>
@@ -96,26 +95,29 @@ function Drafting() {
           note(true, `Imported ${r.lines} lines`); setMapping(null); })}>Import rows</Button>
       </Card>}
 
-      {current === "fields" && <Card title="Fill in what is missing">
-        <Hint>Still missing: {open.map((f) => f.replace(/_/g, " ")).join(", ")}. Describe them in your own words; the AI fills them in and quotes your words.</Hint>
-        <textarea className="textarea" value={gapText} onChange={(e) => setGapText(e.target.value)} style={{ height: 70 }}
-          placeholder="e.g. We buy 30 box types for one year, delivered to our Chakan plant, prices exclusive of GST." />
-        <div className="row" style={{ marginTop: 8 }}><Button disabled={!gapText} loading={busy === "Propose answers"} onClick={() => run("Propose answers", async () => setGapPatch(await api(`/rfx/${rfxId}/gaps/propose`, { body: { text: gapText } })))}>Fill in with AI</Button></div>
-        {gapPatch && <div style={{ marginTop: 10 }}>{Object.entries(gapPatch).filter(([, v]) => v).map(([k, v]: any) => <div key={k} style={{ fontSize: 13 }}><b>{k.replace(/_/g, " ")}</b>: {v.value} <span className="subtle">— “{v.quote}”</span></div>)}
-          <Button variant="primary" style={{ marginTop: 8 }} onClick={() => run("Apply answers", async () => { const r = await api(`/rfx/${rfxId}/gaps/apply`, { body: { patch: gapPatch, source_text: gapText } });
-            note(true, `Rejected (quote not in your text): ${r.rejected.join(", ") || "none"}`); setGapPatch(null); })}>Apply</Button></div>}
+      {current === "fill" && <Card title="2 · Fill in the missing details">
+        {open.length > 0 ? <>
+          <Hint>Still missing: {open.map((f) => f.replace(/_/g, " ")).join(", ")}. Describe them in your own words. The AI fills them in and quotes your words.</Hint>
+          <textarea className="textarea" value={gapText} onChange={(e) => setGapText(e.target.value)} style={{ height: 70 }}
+            placeholder="e.g. We buy 30 box types for one year, delivered to our Chakan plant, prices exclusive of GST." />
+          <div className="row" style={{ marginTop: 8 }}><Button disabled={!gapText} loading={busy === "Propose answers"} onClick={() => run("Propose answers", async () => setGapPatch(await api(`/rfx/${rfxId}/gaps/propose`, { body: { text: gapText } })))}>Fill in with AI</Button></div>
+          {gapPatch && <div style={{ marginTop: 10 }}>{Object.entries(gapPatch).filter(([, v]) => v).map(([k, v]: any) => <div key={k} style={{ fontSize: 13 }}><b>{k.replace(/_/g, " ")}</b>: {v.value} <span className="subtle">— “{v.quote}”</span></div>)}
+            <Button variant="primary" style={{ marginTop: 8 }} onClick={() => run("Apply answers", async () => { const r = await api(`/rfx/${rfxId}/gaps/apply`, { body: { patch: gapPatch, source_text: gapText } });
+              note(true, `Rejected (quote not in your text): ${r.rejected.join(", ") || "none"}`); setGapPatch(null); })}>Apply</Button></div>}
+        </> : <Hint>All details are filled in.</Hint>}
+
+        {open.length === 0 && !questionsDone && <div style={{ marginTop: 18 }}>
+          <div className="answer-h">Vendor questions</div>
+          <Hint>The AI drafts the questions. Each must point to a checklist item, or it is rejected.</Hint>
+          <Button loading={busy === "Draft questionnaire"} onClick={() => run("Draft questionnaire", async () => setQdraft(await api(`/rfx/${rfxId}/questionnaire/propose`, { body: {} })))}>Draft questions (AI)</Button>
+          {qdraft && <div style={{ marginTop: 10 }}>
+            <table className="t dense"><tbody>{qdraft.draft.questions.map((q: any, i: number) => { const v = qdraft.validation.find((x: any) => x.key === q.requirement_key); return (
+              <tr key={i}><td className="mono">{q.no}</td><td>{q.text}</td><td>{v?.ok ? <Badge tone="success">OK</Badge> : <Badge tone="critical">Rejected: {v?.problems.join(", ")}</Badge>}</td></tr>); })}</tbody></table>
+            <Button variant="primary" style={{ marginTop: 8 }} disabled={!qdraft.validation.every((v: any) => v.ok)} onClick={() => run("Apply questionnaire", async () => { await api(`/rfx/${rfxId}/questionnaire/apply`, { body: { draft: qdraft.draft } }); setQdraft(null); })}>Use these questions</Button></div>}
+        </div>}
       </Card>}
 
-      {current === "questionnaire" && <Card title="Vendor questions">
-        <Hint>The AI drafts the questions. Each must point to a checklist item, or it is rejected.</Hint>
-        <Button loading={busy === "Draft questionnaire"} onClick={() => run("Draft questionnaire", async () => setQdraft(await api(`/rfx/${rfxId}/questionnaire/propose`, { body: {} })))}>Draft questions (AI)</Button>
-        {qdraft && <div style={{ marginTop: 10 }}>
-          <table className="t dense"><tbody>{qdraft.draft.questions.map((q: any, i: number) => { const v = qdraft.validation.find((x: any) => x.key === q.requirement_key); return (
-            <tr key={i}><td className="mono">{q.no}</td><td>{q.text}</td><td>{v?.ok ? <Badge tone="success">OK</Badge> : <Badge tone="critical">Rejected: {v?.problems.join(", ")}</Badge>}</td></tr>); })}</tbody></table>
-          <Button variant="primary" style={{ marginTop: 8 }} disabled={!qdraft.validation.every((v: any) => v.ok)} onClick={() => run("Apply questionnaire", async () => { await api(`/rfx/${rfxId}/questionnaire/apply`, { body: { draft: qdraft.draft } }); setQdraft(null); })}>Use these questions</Button></div>}
-      </Card>}
-
-      {current === "check" && <Card title="Check and approve">
+      {current === "check" && <Card title="3 · Check and approve">
         <Hint>The check compares this RFx with the approved reference. Approve is possible only after it passes.</Hint>
         {!checked && <Button loading={busy === "Conformance check"} onClick={() => run("Conformance check", () => api(`/rfx/${rfxId}/conformance`, { body: {} }))}>Run check</Button>}
         {h?.conformance && !checked && <>
@@ -124,12 +126,12 @@ function Drafting() {
         {checked && <Button variant="primary" loading={busy === "Approve"} onClick={() => run("Approve", () => api(`/rfx/${rfxId}/approve`, { body: {} }))}>Approve</Button>}
       </Card>}
 
-      {current === "send" && <Card title="Send to vendors">
+      {current === "send" && <Card title="4 · Send to vendors">
         <Hint>This sends the RFx to every invited vendor.</Hint>
         <Button variant="primary" loading={busy === "Send to vendors"} onClick={() => run("Send to vendors", () => api(`/rfx/${rfxId}/send`, { body: {} }))}>Send to vendors</Button>
       </Card>}
 
-      {current === "replies" && <Card title="Vendor replies">
+      {current === "replies" && <Card title="5 · Vendor replies">
         <Hint>Get a reply from the inbox, then read it. Repeat for each vendor.</Hint>
         <div className="row wrap">
           <Button loading={busy === "Deliver next response"} onClick={() => run("Deliver next response", async () => { const r = await api(`/rfx/${rfxId}/deliver-next`, { body: {} }); note(true, r.delivered ? `Received a reply from ${r.delivered.vendor}` : "No new replies"); })}>Get next reply</Button>

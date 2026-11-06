@@ -210,6 +210,8 @@ def send(sf, storage: Storage, rfx_id: int) -> int:
     vendors = json.loads(storage.read_text("seed/vendors.json"))
     with sf.begin() as s:
         rfx = s.get(Rfx, rfx_id)
+        if rfx.kind == "sandbox":
+            raise FlowError("the sandbox is never sent to vendors (DL-17)")
         if rfx.status != "approved":
             raise FlowError("only an approved RFx can be sent")
         for v in vendors:
@@ -374,6 +376,7 @@ def header(sf, rfx_id: int) -> dict:
                           "SANDBOX": "Sandbox — free-form drafting"}[rfx.origin],
                 "conformance": rfx.conformance, "terms": rfx.terms, "response_basis": rfx.response_basis,
                 "delivery_location": rfx.delivery_location, "patches": patches, "copilot_calls": calls,
+                "open_fields": rfx_gaps(sf, rfx_id),
                 "questions": [{"no": q.no, "section": q.section, "key": q.requirement_key, "applicability": q.applicability,
                                "text": q.text, "mandatory": q.mandatory, "pass_rule": q.pass_rule,
                                "evidence_required": q.evidence_required, "evidence_doc_type": q.evidence_doc_type}

@@ -108,3 +108,12 @@ def test_grounding_unit_cases():
     assert check_grounding("Total ₹4.00 crore, also 1,234,567.89 and 12.3 lakh", res, "q") == []
     assert check_grounding("about ₹4.5 crore", res, "q") == ["4.5 crore"]
     assert check_grounding("line 7 and 25 lines", res, "q") == []
+
+
+def test_grounding_allows_difference_of_two_result_values_only():
+    from decimal import Decimal
+    res = [{"tool": "run_scenario", "result": {"split_total": 37053770, "single_vendor": 34924460}}]
+    # saving = difference of two values that both appear in this turn's results
+    assert check_grounding("saves ₹2129310 against it", res, "q") == []
+    # a figure that is not a difference or sum of two result values is still flagged
+    assert check_grounding("saves ₹123456 against it", res, "q") == ["123456"]

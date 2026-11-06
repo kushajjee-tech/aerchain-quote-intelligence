@@ -56,16 +56,28 @@ def narrative_numbers(text: str) -> list[tuple[str, Decimal]]:
     return found
 
 
+def _is_pair_difference_or_sum(d: Decimal, values: set[Decimal]) -> bool:
+    """A savings-style figure: the difference or sum of two values that both appear in the tool results.
+    Only two operands, both taken from this turn's results, so nothing new is invented."""
+    for a in values:
+        if (a + d) in values or (a - d) in values:
+            return True
+    return False
+
+
 def check_grounding(narrative: str, tool_results: list, question: str, max_small_int: int = 50) -> list[str]:
     values: set[Decimal] = set()
     _collect(tool_results, values)
     allowed = _variants(values)
+    allowed_norm = {a.normalize() for a in allowed}
     q_nums = {d for _, d in narrative_numbers(question)}
     bad = []
     for raw, d in narrative_numbers(narrative):
         if d in q_nums or (d == d.to_integral_value() and d <= max_small_int):
             continue
-        if d in allowed or d.normalize() in {a.normalize() for a in allowed}:
+        if d in allowed or d.normalize() in allowed_norm:
+            continue
+        if _is_pair_difference_or_sum(d, values):
             continue
         bad.append(raw)
     return bad

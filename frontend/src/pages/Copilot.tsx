@@ -38,6 +38,7 @@ function Drafting() {
   const [mapping, setMapping] = useState<any[] | null>(null);
   const [gapText, setGapText] = useState("");
   const [gapPatch, setGapPatch] = useState<any>(null);
+  const [formText, setFormText] = useState("");
   const [qdraft, setQdraft] = useState<any>(null);
   const [adding, setAdding] = useState(false);
   const [log, setLog] = useState<{ ok: boolean; text: string }[]>([]);
@@ -104,6 +105,15 @@ function Drafting() {
           {gapPatch && <div style={{ marginTop: 10 }}>{Object.entries(gapPatch).filter(([, v]) => v).map(([k, v]: any) => <div key={k} style={{ fontSize: 13 }}><b>{k.replace(/_/g, " ")}</b>: {v.value} <span className="subtle">— “{v.quote}”</span></div>)}
             <Button variant="primary" style={{ marginTop: 8 }} onClick={() => run("Apply answers", async () => { const r = await api(`/rfx/${rfxId}/gaps/apply`, { body: { patch: gapPatch, source_text: gapText } });
               note(true, `Rejected (quote not in your text): ${r.rejected.join(", ") || "none"}`); setGapPatch(null); })}>Apply</Button></div>}
+          <div className="answer-h" style={{ marginTop: 16 }}>Or send a form to the customer</div>
+          <Hint>Download the form, email it to the customer, then upload the copy they return. Values are only taken if they appear in the returned form.</Hint>
+          <div className="row wrap">
+            <a className="btn" href={`/api/rfx/${rfxId}/form`} download>Download form</a>
+            <input type="file" accept=".txt" onChange={(e) => e.target.files?.[0]?.text().then(setFormText)} />
+          </div>
+          {formText && <div className="row" style={{ marginTop: 8 }}><Button variant="primary" loading={busy === "Apply form"} onClick={() => run("Apply form", async () => {
+            const r = await api(`/rfx/${rfxId}/form/apply`, { body: { text: formText } });
+            note(true, `Form applied: ${r.applied.join(", ") || "nothing"}${r.rejected.length ? `; rejected: ${r.rejected.join(", ")}` : ""}`); setFormText(""); })}>Apply returned form</Button></div>}
         </> : <Hint>All details are filled in.</Hint>}
 
         {open.length === 0 && !questionsDone && <div style={{ marginTop: 18 }}>

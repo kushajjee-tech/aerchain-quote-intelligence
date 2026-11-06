@@ -120,3 +120,17 @@ describe("assistant on every screen", () => {
     expect(screen.queryByRole("button", { name: /Open the RFx assistant/ })).toBeNull();
   });
 });
+
+describe("product walkthrough", () => {
+  it("starts from the top bar, moves forward and back, and can be ended at any time", async () => {
+    at("/vendors");
+    fireEvent.click(await screen.findByRole("button", { name: /Take the tour/ }));
+    expect(await screen.findByText("Start here: the command centre")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+    expect(await screen.findByText("Supplier replies")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Back" }));
+    expect(await screen.findByText("Start here: the command centre")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "End the walkthrough" }));
+    expect(screen.queryByRole("dialog", { name: "Product walkthrough" })).toBeNull();
+  });
+});

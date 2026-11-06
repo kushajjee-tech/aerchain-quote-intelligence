@@ -210,6 +210,8 @@ def send(sf, storage: Storage, rfx_id: int) -> int:
     vendors = json.loads(storage.read_text("seed/vendors.json"))
     with sf.begin() as s:
         rfx = s.get(Rfx, rfx_id)
+        if rfx.kind == "sandbox":
+            raise FlowError("the sandbox is never sent to vendors (DL-17)")
         if rfx.status != "approved":
             raise FlowError("only an approved RFx can be sent")
         for v in vendors:
@@ -374,7 +376,56 @@ def header(sf, rfx_id: int) -> dict:
                           "SANDBOX": "Sandbox — free-form drafting"}[rfx.origin],
                 "conformance": rfx.conformance, "terms": rfx.terms, "response_basis": rfx.response_basis,
                 "delivery_location": rfx.delivery_location, "patches": patches, "copilot_calls": calls,
+                "open_fields": rfx_gaps(sf, rfx_id),
                 "questions": [{"no": q.no, "section": q.section, "key": q.requirement_key, "applicability": q.applicability,
                                "text": q.text, "mandatory": q.mandatory, "pass_rule": q.pass_rule,
                                "evidence_required": q.evidence_required, "evidence_doc_type": q.evidence_doc_type}
                               for q in s.scalars(select(Question).where(Question.rfx_id == rfx_id).order_by(Question.id))]}
+
+
+# --- 7. customer form: a plain text form the buyer sends out; the customer returns it filled in (no AI) ----------
+FORM_HINTS = {
+    "scope": "what you are buying, how much, for how long",
+    "delivery_location": "where the goods must be delivered",
+    "dimension_convention": "internal or external",
+    "validity_days": "how many days your prices stay valid",
+    "gst_treatment": "e.g. prices exclusive of GST",
+    "unit": "e.g. per box",
+    "currency": "e.g. INR",
+    "freight_basis": "e.g. delivered, freight included",
+}
+
+
+def form_text(sf, rfx_id: int) -> str:
+    """The form to send out: one line per field, with current values filled in when known."""
+    with sf() as s:
+        rfx = s.get(Rfx, rfx_id)
+        if rfx is None:
+            raise FlowError("no such RFx")
+        basis = dict(rfx.response_basis or {})
+        current = {"scope": rfx.scope, "delivery_location": rfx.delivery_location} | basis
+        lines = [f"RFx: {rfx.title}", "Please fill in each line after the colon. Keep the field names as they are.", ""]
+        for f, hint in FORM_HINTS.items():
+            v = current.get(f)
+            lines.append(f"# {hint}")
+            lines.append(f"{f}: {'' if v in (None, '') else v}")
+            lines.append("")
+        return "\n".join(lines)
+
+
+def apply_form(sf, rfx_id: int, text: str) -> dict:
+    """Apply a returned form. Each value must appear in the returned text (same check as the AI path)."""
+    entries = {}
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or ":" not in line:
+            continue
+        key, _, value = line.partition(":")
+        key, value = key.strip(), value.strip()
+        if key in FORM_HINTS and value:
+            entries[key] = value
+    if not entries:
+        raise FlowError("no filled-in fields found in the form")
+    patch = GapPatch.model_validate({f: {"value": v, "quote": f"{f}: {v}"} for f, v in entries.items()})
+    rejected = apply_gap_patch(sf, rfx_id, patch, text)
+    return {"applied": [f for f in entries if f not in rejected], "rejected": rejected, "remaining_gaps": rfx_gaps(sf, rfx_id)}

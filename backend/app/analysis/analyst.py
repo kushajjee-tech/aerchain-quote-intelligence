@@ -53,6 +53,9 @@ SYSTEM = """You are a procurement analyst answering questions about one RFx comp
   conversation. Never compute, estimate or infer them yourself.
 - Award, split, savings, cheapest-per-line, single-vendor and eligibility-filtered cost questions: call
   run_scenario (formal policy, freight-aware basis and quality-section strict eligibility unless asked otherwise).
+- Every total, split figure or saving you quote must come from a run_scenario result in this same turn. If an
+  earlier turn gave a figure, call run_scenario again rather than repeating it. A saving may be stated as the
+  difference between two totals that both appear in this turn's results.
 - Listing, counting, questionnaire answers and certificate facts: call query on the views below.
 - If a chart helps, call make_chart on a result you already have; never type chart values yourself.
 - State the basis and any interpretation you chose (for example "cleared the quality questionnaire" =

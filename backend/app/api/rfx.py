@@ -74,6 +74,23 @@ def gaps_apply(rfx_id: int, body: PatchBody, request: Request):
     return {"rejected": rejected, "remaining_gaps": svc.rfx_gaps(sf, rfx_id)}
 
 
+@router.get("/{rfx_id}/form")
+def form_download(rfx_id: int, request: Request):
+    from fastapi.responses import PlainTextResponse
+    sf, _ = _deps(request)
+    return PlainTextResponse(_conflict(lambda: svc.form_text(sf, rfx_id)), headers={"Content-Disposition": f'attachment; filename="rfx-{rfx_id}-form.txt"'})
+
+
+class FormBody(BaseModel):
+    text: str
+
+
+@router.post("/{rfx_id}/form/apply")
+def form_apply(rfx_id: int, body: FormBody, request: Request):
+    sf, _ = _deps(request)
+    return _conflict(lambda: svc.apply_form(sf, rfx_id, body.text))
+
+
 @router.post("/{rfx_id}/conformance")
 def conformance(rfx_id: int, request: Request):
     sf, st = _deps(request)
